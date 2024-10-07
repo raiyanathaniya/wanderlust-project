@@ -1,0 +1,145 @@
+<% layout("/layouts/boilerplate") %>
+    <!-- <h3>All Listings</h3> -->
+    <!-- <form method="GET" action="/listings/new">
+            <button>Create New Listing</button>
+        </form> -->
+
+    <style>
+        #filters {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            background: #fff;
+            z-index: 1030;
+            top: 5rem;
+        }
+
+        .filter {
+            text-align: center;
+            margin-right: 1rem;
+            margin-top: 2rem;
+            opacity: 0.7;
+        }
+
+        .filter:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .filter p {
+            font-size: 0.8rem;
+        }
+
+        .text-toggle {
+            border: 1px solid black;
+            border-radius: 1rem;
+            height: 3rem;
+            padding: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .text-info {
+            display: none;
+            color: black !important;
+        }
+    </style>
+
+
+    <!-- Filters Section -->
+    <div id="filters" class="container sticky-top">
+
+        <!-- Filter items: visible on large screens and collapsible on small/medium -->
+        <div class="collapse d-lg-block" id="filterCollapse">
+            <!-- Use Bootstrap Grid for responsive layout -->
+            <div class="row">
+                <!-- Each filter will take up 4 columns on small screens (3 per row), 3 columns on medium (4 per row), and auto on large screens -->
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-solid fa-fire "></i>
+                    <p>Trending</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-solid fa-bed "></i>
+                    <p>Rooms</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-solid fa-mountain-city "></i>
+                    <p>Iconic Cities</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-solid fa-mountain "></i>
+                    <p>Mountains</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-brands fa-fort-awesome "></i>
+                    <p>Castles</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-solid fa-person-swimming "></i>
+                    <p>Amazing Pools</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-solid fa-campground "></i>
+                    <p>Camping</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-solid fa-cow "></i>
+                    <p>Farms</p>
+                </div>
+                <div class="col-4 col-md-3 col-lg-auto filter text-center ">
+                    <i class="fa-regular fa-snowflake "></i>
+                    <p>Arctic</p>
+                </div>
+            </div>
+        </div>
+        <!-- Collapse button for small and medium screens -->
+        <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+            Filters
+        </button>
+
+        <!-- Toggle Switch -->
+        <div class="text-toggle  ms-auto">
+            <div class="form-check form-switch form-check-reverse">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse">
+                <label class="form-check-label" for="flexSwitchCheckReverse">Display total after taxes</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <% for(let listing of allListings) { %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+                <div class="card col listing-card">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing Image" style="height: 20rem;">
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b>
+                                <%= listing.title %>
+                            </b> <br>
+                            &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                                <i class="text-info">&nbsp; +18% GST </i>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <% } %>
+    </div>
+
+
+    <script>
+
+        let textSwitch = document.getElementById("flexSwitchCheckReverse");
+        textSwitch.addEventListener("click", () => {
+            let textInfo = document.getElementsByClassName("text-info");
+            for (info of textInfo) {
+                if (info.style.display != "inline") {
+                    info.style.display = "inline"
+                } else {
+                    info.style.display = "none"
+                }
+            }
+        })
+
+    </script>
